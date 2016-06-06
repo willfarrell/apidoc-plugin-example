@@ -14,7 +14,14 @@ function build (data, element, title) {
 		}
 		
 		var json = jsf(schema);
+		json = JSON.stringify( json, null, 4);
 		
+		var element = { source: '@'+element+' '+title+':\n'+json+'\n',
+				name: element.toLowerCase(),
+				sourceName: element,
+				content: title+':\n'+json+'\n'
+			};
+			
 		str = '@'+element+' '+title+':'+"\n";
 		str += JSON.stringify( json, null, 4);
 		

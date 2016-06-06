@@ -7,11 +7,25 @@ var schemas = {
 	'jsonschema': require('./schema/jsonschema')
 };
 
-module.exports = function(element, filename) {
-	var values = elementParser.parse(element.content, element.source);
+var app = {};
+
+module.exports = {
+
+    init: function(_app) {
+        app = _app;
+        app.addHook('parser-find-element-apiexample', parserExampleElement);
+    }
+
+};
+
+function parserExampleElement(element, block, filename) {
+
+    var values = elementParser.parse(element.content, element.source);
+    //app.log.verbose('element.values',values);
 	if (schemas[values.schema]) {
 		var data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
-		return schemas[values.schema](data, values.element, values.title);
+		element = schemas[values.schema](data, values.element, values.title);
 	}
-	return '';
-};
+    
+    return element;
+}
