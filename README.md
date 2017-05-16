@@ -24,5 +24,8 @@ Uses [json-schema-faker]() to generate a sample response.
  */
 ```
 
+## Devloper Note
+This plugin uses `parser-find-elements` @ priority `201`
+
 ## TODO
 - Add in xml/wsdl schema

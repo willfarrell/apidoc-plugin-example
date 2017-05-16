@@ -1,35 +1,31 @@
-var jsf = require('json-schema-faker');
+const jsf = require('json-schema-faker');
 
 var $RefParser = require('json-schema-ref-parser');
-function build (data, element, title) {
-	var schema = JSON.parse(data);
-	var str = '';
+function build (data, sourceName, title) {
+	const schema = JSON.parse(data);
 	// run sync - https://github.com/BigstickCarpet/json-schema-ref-parser/issues/14
-	var str, done = false;
+	let obj = {}, done = false;
 	$RefParser.dereference(schema, function(err, schema) {
 		if (err) {
 			console.error(err);
 			done = true;
 			return;
 		}
-		
-		var json = jsf(schema);
-		json = JSON.stringify( json, null, 4);
-		
-		var element = { source: '@'+element+' '+title+':\n'+json+'\n',
-				name: element.toLowerCase(),
-				sourceName: element,
-				content: title+':\n'+json+'\n'
-			};
-			
-		str = '@'+element+' '+title+':'+"\n";
-		str += JSON.stringify( json, null, 4);
-		
+
+		const json = JSON.stringify( jsf(schema), null, 4);
+
+		obj = {
+			source: '@'+sourceName+' {json} '+title+':\n'+json+'\n',
+			name: sourceName.toLowerCase(),
+			sourceName: sourceName,
+			content: title+':\n'+json+'\n'
+		};
+
 		done = true;
 	});
-	require('deasync').loopWhile(function(){return !done;});
-	//console.log(str);
-	return str;
+	require('deasync').loopWhile(function(){ return !done; });
+
+	return obj;
 }
 
 module.exports = build;

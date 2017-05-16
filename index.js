@@ -1,31 +1,43 @@
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
-var elementParser = require('./parser/api_example');
-var schemas = {
+const elementParser = require('./parser/api_example');
+const schemas = {
 	'json': require('./schema/json'),
 	'jsonschema': require('./schema/jsonschema')
 };
 
-var app = {};
+let app = {};
 
 module.exports = {
-
-    init: function(_app) {
-        app = _app;
-        app.addHook('parser-find-element-apiexample', parserExampleElement);
-    }
-
+	init: function(_app) {
+		app = _app;
+		//app.addHook('parser-find-element-apiexample', parserExampleElement);
+		app.addHook('parser-find-elements', parserExampleElements, 201);
+	}
 };
 
-function parserExampleElement(element, block, filename) {
-
-    var values = elementParser.parse(element.content, element.source);
-    //app.log.verbose('element.values',values);
+// Doesn't work
+function parserExampleElement(elements, element, block, filename) {
+	const values = elementParser.parse(element.content, element.source);
+	app.log.debug('apiexample.path',values.path);
 	if (schemas[values.schema]) {
-		var data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
+		const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
 		element = schemas[values.schema](data, values.element, values.title);
 	}
-    
-    return element;
+	return element;
+}
+
+function parserExampleElements(elements, element, block, filename) {
+	if ( element.name !== 'apiexample' ) { return elements; }
+	elements.pop();
+
+	const values = elementParser.parse(element.content, element.source);
+	app.log.debug('apiexample.path',values.path);
+	if (schemas[values.schema]) {
+		const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
+		element = schemas[values.schema](data, values.element, values.title);
+	}
+	elements.push(element);
+	return elements;
 }
