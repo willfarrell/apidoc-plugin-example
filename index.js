@@ -4,7 +4,8 @@ const path = require('path');
 const elementParser = require('./parser/api_example');
 const schemas = {
 	'json': require('./schema/json'),
-	'jsonschema': require('./schema/jsonschema')
+	'jsonschema': require('./schema/jsonschema'),
+	'xml': require('./schema/xml')
 };
 
 let app = {};

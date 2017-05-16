@@ -20,12 +20,13 @@ Uses [json-schema-faker]() to generate a sample response.
 /**
  * @api {get} /api GetAPI
  * @apiExample {json=./ex/api.req.json} apiParamExample Request
- * @apiExample {jsonschema=./ex/api.res.json} apiSuccessExample Response
+ * @apiExample {jsonschema=./ex/api.res.json} apiSuccessExample Response JSON
+ * @apiExample {xml=./ex/api.res.xml} apiSuccessExample Response XML
  */
 ```
 
-## Devloper Note
-This plugin uses `parser-find-elements` @ priority `201`
+## Developer Note
+This plugin uses `parser-find-elements` @ priority `201`.
 
 ## TODO
-- Add in xml/wsdl schema
+- Add in wsdl schema / XSD
