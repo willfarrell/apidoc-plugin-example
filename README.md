@@ -1,6 +1,6 @@
 # apidoc-plugin-example
 
-Generates and inject [apidoc](http://apidoc.com) example elements from api schemas or files.
+Generates and inject [apidoc](http://apidocjs.com/) example elements from api schemas or files.
 
 `@apiExample {SCHEMA_TYPE=PATH_TO_SCHEMA} ELEMENT_TYPE TITLE`
 
@@ -11,8 +11,8 @@ Generates and inject [apidoc](http://apidoc.com) example elements from api schem
 ### json
 Prettifies JSON and injects in.
 
-### [jsonschema](http://www.jsonschema.org)
-Uses [json-schema-faker]() to generate a sample response.
+### [jsonschema](https://json-schema.org)
+Uses [json-schema-faker](https://github.com/json-schema-faker/json-schema-faker) to generate a sample response.
 
 
 ## Example Use
