@@ -34,10 +34,12 @@ function parserExampleElements(elements, element, block, filename) {
 	elements.pop();
 
 	const values = elementParser.parse(element.content, element.source);
-	app.log.debug('apiexample.path',values.path);
-	if (schemas[values.schema]) {
-		const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
-		element = schemas[values.schema](data, values.element, values.title);
+	if(values)
+		app.log.debug('apiexample.path',values.path);
+		if (schemas[values.schema]) {
+			const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
+			element = schemas[values.schema](data, values.element, values.title);
+		}
 	}
 	elements.push(element);
 	return elements;
