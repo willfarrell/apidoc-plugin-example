@@ -33,9 +33,9 @@ function parserExampleElements(elements, element, block, filename) {
 	if ( element.name !== 'apiexample' ) { return elements; }
 	elements.pop();
 
-	const values = elementParser.parse(element.content, element.source);
-	app.log.debug('apiexample.path',values.path);
-	if (schemas[values.schema]) {
+	const values = elementParser.parse(element.content, element.source);	
+	if (values && schemas[values.schema]) {
+		app.log.debug('apiexample.path',values.path);
 		const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
 		element = schemas[values.schema](data, values.element, values.title);
 	}
