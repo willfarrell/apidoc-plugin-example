@@ -30,15 +30,22 @@ function parserExampleElement(elements, element, block, filename) {
 }
 
 function parserExampleElements(elements, element, block, filename) {
-	if ( element.name !== 'apiexample' ) { return elements; }
-	elements.pop();
 
-	const values = elementParser.parse(element.content, element.source);	
-	if (values && schemas[values.schema]) {
-		app.log.debug('apiexample.path',values.path);
-		const data = fs.readFileSync( path.join(path.dirname(filename), values.path), 'utf8').toString();
-		element = schemas[values.schema](data, values.element, values.title);
+	if ( element.name !== 'apiexample' ) {
+		return elements;
 	}
+
+	const parts = elementParser.parse(element.content, element.source);
+	if (!parts) {
+		return elements
+	}
+
+	app.log.debug('apiexample.path', parts.path);
+	const data = fs.readFileSync(path.join(path.dirname(filename), parts.path), 'utf8').toString();
+
+	element = schemas[parts.schema](data, parts.element, parts.title);
+	elements.pop()
 	elements.push(element);
+
 	return elements;
 }
