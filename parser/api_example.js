@@ -7,7 +7,7 @@ function parse(content) {
 		return null;
 	
 	// @apiExample {json=relative_path} additional_argument
-	var parseRegExp = /^\{(.+?)=(.+?)\}\s*(?:\s+(.+?))?\s(.+?)$/g;
+	var parseRegExp = /^\{\s*(json|jsonschema|xml)\s*=(.+?)\}\s*(?:\s+(.+?))?\s(.+?)$/g;
 	var matches = parseRegExp.exec(content);
 
 	if ( ! matches)
